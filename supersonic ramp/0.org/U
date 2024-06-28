@@ -1,0 +1,76 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2212                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+Uinlet          (609.1 0 0);
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform $Uinlet;
+
+boundaryField
+{
+    INLET
+    {
+    type            codedFixedValue;
+    value           uniform (0 0 0);
+    name            codedFixedValue;
+    code
+    #{
+        const scalar delta = 0.0064;
+        const scalar U_max = 609.1;
+
+        vectorField& field = *this;
+
+        forAll(field, i)
+        {
+            scalar y = this->patch().Cf()[i].y();
+
+            if (y <= delta)
+            {
+                field[i] = vector(U_max * pow(y / delta, 0.2), 0, 0);
+            }
+            else
+            {
+                field[i] = vector(U_max, 0, 0);
+            }
+        }
+    #};
+    }
+
+    OUTLET
+    {
+        type            zeroGradient;
+    }
+
+    WALL_UP
+    {
+        type            zeroGradient;
+    }
+
+    WALL
+    {
+        type            noSlip;
+    }
+
+    frontAndBackPlanes
+    {
+        type            empty;
+    }
+
+}
+
+
+// ************************************************************************* //
