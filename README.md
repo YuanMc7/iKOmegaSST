@@ -8,3 +8,5 @@ reference: Wang, C., Sun, M., Yang, Y., Wang, H., Liu, X., Xiong, D., & Wang, Y.
 Test results:
 
 ![](https://github.com/YuanMc7/iKOmegaSST/blob/main/supersonic%20ramp/DATA/%E5%AF%B9%E6%AF%94.png)
+
+![](https://github.com/YuanMc7/iKOmegaSST/blob/main/supersonic%20ramp/DATA/P.png)
